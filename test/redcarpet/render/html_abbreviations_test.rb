@@ -18,7 +18,7 @@ describe Redcarpet::Render::HTMLAbbreviations do
       EOS
 
       @renderer.new.preprocess(markdown).must_equal <<-EOS.strip_heredoc.chomp
-        <abbr title=\"You Only Live Once\">YOLO</abbr>
+        <abbr title="You Only Live Once">YOLO</abbr>
       EOS
     end
 
@@ -30,7 +30,7 @@ describe Redcarpet::Render::HTMLAbbreviations do
       EOS
 
       @renderer.new.preprocess(markdown).must_equal <<-EOS.strip_heredoc.chomp
-        <abbr title=\"JSON with Padding">JSON-P</abbr>
+        <abbr title="JSON with Padding">JSON-P</abbr>
       EOS
     end
 
@@ -50,12 +50,14 @@ describe Redcarpet::Render::HTMLAbbreviations do
       ".FOO.".must_match @renderer.new.acronym_regexp("FOO")
     end
 
+    it "matches an acronym with hyphens" do
+      "JSON-P".must_match @renderer.new.acronym_regexp("JSON-P")
+    end
+
     it "doesn't match an acronym in the middle of a word" do
       "YOLOFOOYOLO".wont_match @renderer.new.acronym_regexp("FOO")
     end
+
   end
 
-  it "matches hyphenated acronyms" do
-    "JSON-P".must_match @renderer.new.acronym_regexp("JSON-P")
-  end
 end

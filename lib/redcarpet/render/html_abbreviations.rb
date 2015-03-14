@@ -1,14 +1,15 @@
 module Redcarpet
   module Render
     module HTMLAbbreviations
-      REGEX = /^\*\[([-A-Z]+)\]: (.+)$/
+
+      REGEXP = /^\*\[([-A-Z]+)\]: (.+)$/
 
       def preprocess(document)
-        abbreviations = document.scan(REGEX)
+        abbreviations = document.scan(REGEXP)
         abbreviations = Hash[*abbreviations.flatten]
 
         if abbreviations.any?
-          document.gsub!(REGEX, "")
+          document.gsub!(REGEXP, "")
           document.rstrip!
 
           abbreviations.each do |key, value|
