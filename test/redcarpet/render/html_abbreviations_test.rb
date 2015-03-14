@@ -22,6 +22,18 @@ describe Redcarpet::Render::HTMLAbbreviations do
       EOS
     end
 
+    it "converts hyphenated abbrevations to HTML" do
+      markdown = <<-EOS.strip_heredoc
+        JSON-P
+
+        *[JSON-P]: JSON with Padding
+      EOS
+
+      @renderer.new.preprocess(markdown).must_equal <<-EOS.strip_heredoc.chomp
+        <abbr title=\"JSON with Padding">JSON-P</abbr>
+      EOS
+    end
+
   end
 
   describe "#acronym_regexp" do
@@ -43,4 +55,7 @@ describe Redcarpet::Render::HTMLAbbreviations do
     end
   end
 
+  it "matches hyphenated acronyms" do
+    "JSON-P".must_match @renderer.new.acronym_regexp("JSON-P")
+  end
 end
