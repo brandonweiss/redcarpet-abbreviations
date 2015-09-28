@@ -34,6 +34,18 @@ describe Redcarpet::Render::HTMLAbbreviations do
       EOS
     end
 
+    it "converts abbrevations with numbers to HTML" do
+      markdown = <<-EOS.strip_heredoc
+        ES6
+
+        *[ES6]: ECMAScript 6
+      EOS
+
+      @renderer.new.preprocess(markdown).must_equal <<-EOS.strip_heredoc.chomp
+        <abbr title="ECMAScript 6">ES6</abbr>
+      EOS
+    end
+
   end
 
   describe "#acronym_regexp" do
@@ -56,6 +68,10 @@ describe Redcarpet::Render::HTMLAbbreviations do
 
     it "doesn't match an acronym in the middle of a word" do
       "YOLOFOOYOLO".wont_match @renderer.new.acronym_regexp("FOO")
+    end
+
+    it "matches numbers" do
+      "ES6".must_match @renderer.new.acronym_regexp("ES6")
     end
 
   end
