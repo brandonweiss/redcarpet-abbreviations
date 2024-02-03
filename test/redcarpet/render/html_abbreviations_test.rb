@@ -46,6 +46,17 @@ describe Redcarpet::Render::HTMLAbbreviations do
       EOS
     end
 
+    it "converts abbrevations with unicode, lowercase and spaces to HTML" do
+      markdown = <<-EOS.strip_heredoc
+        É.-U. d'A.
+
+        *[É.-U. d'A.]: États-Unis d'Amérique
+      EOS
+
+      @renderer.new.preprocess(markdown).must_equal <<-EOS.strip_heredoc.chomp
+        <abbr title="États-Unis d'Amérique">É.-U. d'A.</abbr>
+      EOS
+    end
   end
 
   describe "#acronym_regexp" do
@@ -74,6 +85,9 @@ describe Redcarpet::Render::HTMLAbbreviations do
       "ES6".must_match @renderer.new.acronym_regexp("ES6")
     end
 
+    it "matches " do
+      "É.-U. d'A.".must_match @renderer.new.acronym_regexp("É.-U. d'A.")
+    end
   end
 
 end

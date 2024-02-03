@@ -2,7 +2,7 @@ module Redcarpet
   module Render
     module HTMLAbbreviations
 
-      REGEXP = /^\*\[([-A-Z0-9]+)\]: (.+)$/
+      REGEXP = /^\*\[([^\]]+)\]: (.+)$/
 
       def preprocess(document)
         abbreviations = document.scan(REGEXP)
@@ -25,7 +25,7 @@ module Redcarpet
       end
 
       def acronym_regexp(acronym)
-        /\b#{acronym}\b/
+        /\b#{acronym}((?<=.)|\b)/
       end
 
     end
