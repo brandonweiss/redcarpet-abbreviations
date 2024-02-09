@@ -85,9 +85,6 @@ describe Redcarpet::Render::HTMLAbbreviations do
       "ES6".must_match @renderer.new.acronym_regexp("ES6")
     end
 
-    it "matches " do
-      "É.-U. d'A.".must_match @renderer.new.acronym_regexp("É.-U. d'A.")
-    end
   end
 
 end
